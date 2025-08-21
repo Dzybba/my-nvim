@@ -1,90 +1,110 @@
 -- Set <leader> to space
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
-vim.keymap.set({'n', 'v'}, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({'n', 'v'}, '<Space>', '<Nop>', { silent = true, desc = "Disable space in normal and visual mode" })
 
 -- Copy to clipboard
-vim.keymap.set("v", "<leader>y", '"+y')
-vim.keymap.set("n", "<leader>Y", '"+yg_')
-vim.keymap.set("n", "<leader>y", '"+y')
-vim.keymap.set("n", "<leader>yy", '"+yy')
+vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to system clipboard" })
+vim.keymap.set("n", "<leader>Y", '"+yg_', { desc = "Copy from cursor to end of line to system clipboard" })
+vim.keymap.set("n", "<leader>y", '"+y', { desc = "Copy motion to system clipboard" })
+vim.keymap.set("n", "<leader>yy", '"+yy', { desc = "Copy entire line to system clipboard" })
 
 -- Paste from clipboard
-vim.keymap.set("n", "<leader>p", '"+p')
-vim.keymap.set("n", "<leader>P", '"+P')
-vim.keymap.set("v", "<leader>p", '"+p')
-vim.keymap.set("v", "<leader>P", '"+P')
+vim.keymap.set("n", "<leader>p", '"+p', { desc = "Paste from system clipboard after cursor" })
+vim.keymap.set("n", "<leader>P", '"+P', { desc = "Paste from system clipboard before cursor" })
+vim.keymap.set("v", "<leader>p", '"+p', { desc = "Replace selection with system clipboard" })
+vim.keymap.set("v", "<leader>P", '"+P', { desc = "Paste from system clipboard before selection" })
 
 -- Paste in insert mode from default register
-vim.keymap.set("i", "<C-p>", '<C-r>"')
+vim.keymap.set("i", "<C-p>", '<C-r>"', { desc = "Paste from default register in insert mode" })
 
 -- Clear search on <Esc>
-vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>")
+vim.keymap.set("n", "<Esc>", ":nohlsearch<CR><Esc>", { desc = "Clear search highlights" })
 
 -- Redo
-vim.keymap.set("n", "U", "<C-r>")
+vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 
 -- Don't use Ex mode, use Q for formatting (gq)
-vim.keymap.set("n", "Q", "gq")
+vim.keymap.set("n", "Q", "gq", { desc = "Format text using gq" })
 
 -- Format Json string 
 vim.keymap.set('n', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format buffer as JSON' })
 vim.keymap.set('v', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format selected JSON' })
  
-
 local opts = { noremap = true, silent = true }
--- Prevent copy to buffer when click x
-vim.keymap.set('n', 'x', '"_x', opts)
 
+-- Prevent copy to buffer when click x
+vim.keymap.set('n', 'x', '"_x', { noremap = true, silent = true, desc = "Delete character without copying to register" })
 
 -- Resize with arrows
-vim.keymap.set('n', '<Up>', ':resize -2<CR>', opts)
-vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts)
-vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', opts)
-vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', opts)
+vim.keymap.set('n', '<Up>', ':resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window height" })
+vim.keymap.set('n', '<Down>', ':resize +2<CR>', { noremap = true, silent = true, desc = "Increase window height" })
+vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window width" })
+vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', { noremap = true, silent = true, desc = "Increase window width" })
 
 -- Buffers
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
-vim.keymap.set('n', '<leader>x', function()
-  local current_buf = vim.fn.bufnr('%')
-  local listed_buffers = vim.fn.filter(vim.fn.range(1, vim.fn.bufnr('$')), 'buflisted(v:val)')
-  
-  if #listed_buffers > 1 then
-    vim.cmd('bprevious')
-  end
-  
-  vim.cmd('bdelete! ' .. current_buf)
-end, opts)-- Window management
+vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true, desc = "Go to next buffer" })
+vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true, desc = "Go to previous buffer" })
+vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
+--vim.keymap.set('n', '<leader>x', function()
+--  local current_buf = vim.fn.bufnr('%')
+--  local listed_buffers = vim.fn.filter(vim.fn.range(1, vim.fn.bufnr('$')), 'buflisted(v:val)')
+--  
+--  if #listed_buffers > 1 then
+--    vim.cmd('bprevious')
+--  end
+--  
+--  vim.cmd('bdelete! ' .. current_buf)
+--end, { noremap = true, silent = true, desc = "Close current buffer" })
 
-vim.keymap.set('n', '<leader>v', '<C-w>v', opts) -- split window vertically
-vim.keymap.set('n', '<leader>h', '<C-w>s', opts) -- split window horizontally
-vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
-vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+
+--vim.keymap.set('n', '<leader>x', function()
+--  -- Check if there are multiple windows
+--  local window_count = vim.fn.winnr('$')
+--  
+--  if window_count > 1 then
+--    -- If multiple windows, close current split
+--    vim.cmd('close')
+--  else
+--    -- If only one window, apply buffer close logic
+--    local current_buf = vim.fn.bufnr('%')
+--    local listed_buffers = vim.fn.filter(vim.fn.range(1, vim.fn.bufnr('$')), 'buflisted(v:val)')
+--    
+--    if #listed_buffers > 1 then
+--      vim.cmd('bprevious')
+--    end
+--    
+--    vim.cmd('bdelete! ' .. current_buf)
+--  end
+--end, { noremap = true, silent = true, desc = "Close split window or buffer" })
+--
+-- Window management
+vim.keymap.set('n', '<leader>v', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
+vim.keymap.set('n', '<leader>h', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
+vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true, desc = "Make split windows equal size" })
+vim.keymap.set('n', '<leader>x', ':close<CR>', { noremap = true, silent = true, desc = "Close current split window" })
 
 -- Navigate between splits
-vim.keymap.set('n', '<leader>w', '<C-w>w', opts)  -- Leader + w
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', opts)
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', opts)
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', opts)
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', opts)
+vim.keymap.set('n', '<A-Tab>', '<C-w>w', { noremap = true, silent = true, desc = "Cycle through windows" })
+vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', { noremap = true, silent = true, desc = "Move to window above" })
+vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', { noremap = true, silent = true, desc = "Move to window below" })
+vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', { noremap = true, silent = true, desc = "Move to window left" })
+vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { noremap = true, silent = true, desc = "Move to window right" })
 
 -- Tabs
-vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts) -- open new tab
-vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
-vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts) --  go to next tab
-vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
+--vim.keymap.set('n', '<leader>to', ':tabnew<CR>', { noremap = true, silent = true, desc = "Open new tab" })
+--vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close current tab" })
+--vim.keymap.set('n', '<leader>tn', ':tabn<CR>', { noremap = true, silent = true, desc = "Go to next tab" })
+--vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { noremap = true, silent = true, desc = "Go to previous tab" })
 
 -- Toggle line wrapping
--- vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
+-- vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', { noremap = true, silent = true, desc = "Toggle line wrapping" })
 
 -- Stay in indent mode
-vim.keymap.set('v', '<', '<gv', opts)
-vim.keymap.set('v', '>', '>gv', opts)
+vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "Indent left and reselect" })
+vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent right and reselect" })
 
--- Diagnostic keymaps
+-- Diagnostic keymaps (commented out)
 -- vim.keymap.set('n', '[d', function()
 --   vim.diagnostic.jump { count = -1, float = true }
 -- end, { desc = 'Go to previous diagnostic message' })
