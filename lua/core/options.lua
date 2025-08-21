@@ -1,6 +1,6 @@
  -- Show numbers 
-vim.o.number = true       
-vim.o.relativenumber = true 
+vim.o.number = true
+vim.o.relativenumber = true
 
 vim.o.expandtab = true     -- convert tabs to spaces
 vim.o.tabstop = 4          -- a tab is shown as 4 spaces

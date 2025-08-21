@@ -20,11 +20,9 @@ require("lazy").setup({
   spec = {
     -- 1. LazyVim core plugins (should be first)
     -- { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    
     -- 2. LazyVim extras (if you want any)
     -- { import = "lazyvim.plugins.extras.lang.typescript" },
     -- { import = "lazyvim.plugins.extras.coding.copilot" },
-    
     -- 3. Your own plugins (should be last)
     { import = "plugins" },
   },
