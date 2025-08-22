@@ -37,10 +37,10 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', 'x', '"_x', { noremap = true, silent = true, desc = "Delete character without copying to register" })
 
 -- Resize with arrows
-vim.keymap.set('n', '<Up>', ':resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window height" })
-vim.keymap.set('n', '<Down>', ':resize +2<CR>', { noremap = true, silent = true, desc = "Increase window height" })
-vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window width" })
-vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', { noremap = true, silent = true, desc = "Increase window width" })
+vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window height" })
+vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { noremap = true, silent = true, desc = "Increase window height" })
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window width" })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true, desc = "Increase window width" })
 
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true, desc = "Go to next buffer" })
@@ -48,61 +48,14 @@ vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
 
 vim.keymap.set('n', '<leader>x', function()
-  -- Check if current window is the explorer
-  local current_ft = vim.bo.filetype
-  print("Current filetype:", current_ft)  -- This will print to :messages
-  if string.find(current_ft, '^snacks_picker') then
-    print("Return,no need to close")
-    return -- Don't close the explorer itself
-  end
-  
   -- Count windows excluding explorer
-  local window_count = 0
-  for i = 1, vim.fn.winnr('$') do
-    local bufnr = vim.fn.winbufnr(i)
-    local ft = vim.fn.getbufvar(bufnr, '&filetype')
-    if not string.find(ft, '^snacks_picker') then
-      window_count = window_count + 1
-    end
-  end
-  print("wind count:", window_count)
+  local window_count = vim.fn.winnr('$')
+  print("window count:", window_count)
   if window_count > 1 then
     vim.cmd('close')
   end
 end, { noremap = true, silent = true, desc = "Close split window or buffer" })
 
---vim.keymap.set('n', '<leader>x', function()
---  local current_buf = vim.fn.bufnr('%')
---  local listed_buffers = vim.fn.filter(vim.fn.range(1, vim.fn.bufnr('$')), 'buflisted(v:val)')
---  
---  if #listed_buffers > 1 then
---    vim.cmd('bprevious')
---  end
---  
---  vim.cmd('bdelete! ' .. current_buf)
---end, { noremap = true, silent = true, desc = "Close current buffer" })
-
-
---vim.keymap.set('n', '<leader>x', function()
---  -- Check if there are multiple windows
---  local window_count = vim.fn.winnr('$')
---  
---  if window_count > 1 then
---    -- If multiple windows, close current split
---    vim.cmd('close')
---  else
---    -- If only one window, apply buffer close logic
---    local current_buf = vim.fn.bufnr('%')
---    local listed_buffers = vim.fn.filter(vim.fn.range(1, vim.fn.bufnr('$')), 'buflisted(v:val)')
---    
---    if #listed_buffers > 1 then
---      vim.cmd('bprevious')
---    end
---    
---    vim.cmd('bdelete! ' .. current_buf)
---  end
---end, { noremap = true, silent = true, desc = "Close split window or buffer" })
---
 -- Window management
 vim.keymap.set('n', '<leader>v', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
 vim.keymap.set('n', '<leader>h', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
