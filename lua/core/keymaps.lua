@@ -45,7 +45,20 @@ vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true, si
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true, desc = "Go to next buffer" })
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true, desc = "Go to previous buffer" })
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
+vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
+
+-- Smart close with confirmation for unsaved buffers
+vim.keymap.set('n', '<leader>bx', function()
+  local buf = vim.api.nvim_get_current_buf()
+  local modified = vim.bo[buf].modified
+  
+  if modified then
+    vim.cmd('confirm bdelete')
+  else
+    vim.cmd('bdelete')
+  end
+end, { noremap = true, silent = true, desc = "Close buffer" })
+
 
 vim.keymap.set('n', '<leader>x', function()
   -- Count windows excluding explorer
@@ -54,13 +67,12 @@ vim.keymap.set('n', '<leader>x', function()
   if window_count > 1 then
     vim.cmd('close')
   end
-end, { noremap = true, silent = true, desc = "Close split window or buffer" })
+end, { noremap = true, silent = true, desc = "Close split window" })
 
 -- Window management
 vim.keymap.set('n', '<leader>v', '<C-w>v', { noremap = true, silent = true, desc = "Split window vertically" })
 vim.keymap.set('n', '<leader>h', '<C-w>s', { noremap = true, silent = true, desc = "Split window horizontally" })
 vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true, desc = "Make split windows equal size" })
---vim.keymap.set('n', '<leader>x', ':close<CR>', { noremap = true, silent = true, desc = "Close current split window" })
 
 -- Navigate between splits
 vim.keymap.set('n', '<A-Tab>', '<C-w>w', { noremap = true, silent = true, desc = "Cycle through windows" })
@@ -81,6 +93,25 @@ vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { noremap = true, silent = true, d
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "Indent left and reselect" })
 vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent right and reselect" })
+
+local function auto_quote()
+  local mode = vim.fn.mode()
+  
+  -- Check if in any visual mode
+  if mode == 'v' then
+    -- Store what we're about to replace
+    vim.cmd('normal! c""')
+    -- Enter insert mode, add closing quote, exit, paste content
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>P', true, false, true), 'n', true)
+  end
+end
+
+-- Keybinding: Press " to auto-add quotes
+vim.keymap.set('v', '"', auto_quote, {
+  noremap = true,
+  silent = true,
+  desc = 'Add quotes around word/selection'
+})
 
 -- Diagnostic keymaps (commented out)
 -- vim.keymap.set('n', '[d', function()
