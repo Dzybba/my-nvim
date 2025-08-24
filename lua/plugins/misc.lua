@@ -27,16 +27,4 @@ return {
     config = true,
     opts = {},
   },
-  {
-    'echasnovski/mini.animate',
-    version = '*',
-    event = "VeryLazy",
-    config = function ()
-      require('mini.animate').setup({
-        cursor = {
-          enable = false,
-        }
-      })
-    end
-  },
 }
