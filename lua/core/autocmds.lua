@@ -12,3 +12,11 @@ vim.api.nvim_create_user_command('FormatJSON', function(opts)
     vim.notify("jq not installed", vim.log.levels.ERROR)
   end
 end, { range = true })
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Hightlight when yankin',
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})

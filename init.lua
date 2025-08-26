@@ -1,6 +1,7 @@
 require 'core.options'
 require 'core.autocmds'
 require 'core.keymaps'
+require 'core.lsp'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -14,7 +15,6 @@ end
 
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
---vim.g.lazyvim_check_order = false
 
 require("lazy").setup({
   spec = {
