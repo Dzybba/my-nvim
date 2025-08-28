@@ -21,6 +21,11 @@ return {
     config = true,
     opts = {},
   },
+  {
+    'echasnovski/mini.ai', 
+    version = '*',
+    event = 'VeryLazy'
+  }
 --  {
 --    'echasnovski/mini.animate',
 --    version = '*',
