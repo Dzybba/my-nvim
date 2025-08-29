@@ -1,7 +1,7 @@
 -- Set <leader> to space
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.keymap.set({'n', 'v'}, '<Space>', '<Nop>', { silent = true, desc = "Disable space in normal and visual mode" })
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true, desc = "Disable space in normal and visual mode" })
 
 -- Copy to clipboard
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to system clipboard" })
@@ -27,10 +27,10 @@ vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 -- Don't use Ex mode, use Q for formatting (gq)
 vim.keymap.set("n", "Q", "gq", { desc = "Format text using gq" })
 
--- Format Json string 
+-- Format Json string
 vim.keymap.set('n', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format buffer as JSON' })
 vim.keymap.set('v', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format selected JSON' })
- 
+
 local opts = { noremap = true, silent = true }
 
 -- Prevent copy to buffer when click x
@@ -39,8 +39,10 @@ vim.keymap.set('n', 'x', '"_x', { noremap = true, silent = true, desc = "Delete 
 -- Resize with arrows
 vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window height" })
 vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { noremap = true, silent = true, desc = "Increase window height" })
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true, silent = true, desc = "Decrease window width" })
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true, desc = "Increase window width" })
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>',
+    { noremap = true, silent = true, desc = "Decrease window width" })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>',
+    { noremap = true, silent = true, desc = "Increase window width" })
 
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true, desc = "Go to next buffer" })
@@ -49,24 +51,24 @@ vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = 
 
 -- Smart close with confirmation for unsaved buffers
 vim.keymap.set('n', '<M-x>', function()
-  local buf = vim.api.nvim_get_current_buf()
-  local modified = vim.bo[buf].modified
-  
-  if modified then
-    vim.cmd('confirm bdelete')
-  else
-    vim.cmd('bdelete')
-  end
+    local buf = vim.api.nvim_get_current_buf()
+    local modified = vim.bo[buf].modified
+
+    if modified then
+        vim.cmd('confirm bdelete')
+    else
+        vim.cmd('bdelete')
+    end
 end, { noremap = true, silent = true, desc = "Close buffer" })
 
 
 vim.keymap.set('n', '<leader>x', function()
-  -- Count windows excluding explorer
-  local window_count = vim.fn.winnr('$')
-  print("window count:", window_count)
-  if window_count > 1 then
-    vim.cmd('close')
-  end
+    -- Count windows excluding explorer
+    local window_count = vim.fn.winnr('$')
+    print("window count:", window_count)
+    if window_count > 1 then
+        vim.cmd('close')
+    end
 end, { noremap = true, silent = true, desc = "Close split window" })
 
 -- Window management
@@ -95,34 +97,87 @@ vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = "Indent 
 vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = "Indent right and reselect" })
 
 local function auto_quote()
-  local mode = vim.fn.mode()
-  
-  -- Check if in any visual mode
-  if mode == 'v' then
-    -- Store what we're about to replace
-    vim.cmd('normal! c""')
-    -- Enter insert mode, add closing quote, exit, paste content
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>P', true, false, true), 'n', true)
-  end
+    local mode = vim.fn.mode()
+
+    -- Check if in any visual mode
+    if mode == 'v' then
+        -- Store what we're about to replace
+        vim.cmd('normal! c""')
+        -- Enter insert mode, add closing quote, exit, paste content
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>P', true, false, true), 'n', true)
+    end
 end
 
 -- Keybinding: Press " to auto-add quotes
 vim.keymap.set('v', '"', auto_quote, {
-  noremap = true,
-  silent = true,
-  desc = 'Add quotes around word/selection'
+    noremap = true,
+    silent = true,
+    desc = 'Add quotes around word/selection'
 })
 
-vim.keymap.set({ "n", "i", "v" }, "<M-s>", "<cmd>w<cr>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "i", "v" }, "<M-s>", "<cmd>w<cr>", { noremap = true, silent = true, desc = 'Save changes' })
+
+
+local function get_visual_selection()
+    local mode = vim.api.nvim_get_mode().mode
+    local opts = {}
+
+    -- Check if currently in a visual mode (character, line, or block)
+    if mode == "v" then
+        opts.type = mode
+    else
+        return nil -- Not in visual mode, no selection to get
+    end
+    -- getpos("v") returns the start position of the visual selection
+    -- getpos(".") returns the current cursor position, which is the end of the selection
+    local region = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), opts)
+    -- Convert table to string (join lines with spaces for multi-line selections)
+    if type(region) == "table" then
+        return table.concat(region, " ")
+    else
+        return region
+    end
+end
+
+local function search_selected(searchKey)
+    local selected = get_visual_selection()
+    if selected and selected ~= "" then
+        -- Escape special characters for search
+        selected = vim.fn.escape(selected, '/\\.*$^~[]')
+        -- Exit visual mode first, then start search with the selected text
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+        vim.schedule(function()
+            vim.fn.feedkeys(searchKey .. selected)
+        end)
+    else
+        -- If nothing selected, just start normal search
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+        vim.schedule(function()
+            vim.fn.feedkeys(searchKey)
+        end)
+    end
+end
+
+
+-- Search forward with selected text
+vim.keymap.set("v", "/", function()
+    search_selected('/')
+end, { noremap = true, silent = false })
+
+-- Search backward with selected text
+vim.keymap.set("v", "?", function()
+    search_selected('?')
+end, { noremap = true, silent = false })
+
 
 -- Diagnostic keymaps (commented out)
 -- vim.keymap.set('n', '[d', function()
 --   vim.diagnostic.jump { count = -1, float = true }
 -- end, { desc = 'Go to previous diagnostic message' })
--- 
+--
 -- vim.keymap.set('n', ']d', function()
 --   vim.diagnostic.jump { count = 1, float = true }
 -- end, { desc = 'Go to next diagnostic message' })
--- 
+--
 -- vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
