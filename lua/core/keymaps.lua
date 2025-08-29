@@ -48,7 +48,7 @@ vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true
 vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
 
 -- Smart close with confirmation for unsaved buffers
-vim.keymap.set('n', '<leader>bx', function()
+vim.keymap.set('n', '<M-x>', function()
   local buf = vim.api.nvim_get_current_buf()
   local modified = vim.bo[buf].modified
   
@@ -112,6 +112,8 @@ vim.keymap.set('v', '"', auto_quote, {
   silent = true,
   desc = 'Add quotes around word/selection'
 })
+
+vim.keymap.set({ "n", "i", "v" }, "<M-s>", "<cmd>w<cr>", { noremap = true, silent = true })
 
 -- Diagnostic keymaps (commented out)
 -- vim.keymap.set('n', '[d', function()

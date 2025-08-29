@@ -1,6 +1,6 @@
 -- all configs for lsp https://github.com/neovim/nvim-lspconfig/tree/master/lsp
 
-vim.lsp.enable({'lsp_lua', 'kotlin_lsp'})
+vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
@@ -14,6 +14,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
+
+
+vim.keymap.set({ 'n', 'i' }, "<C-M-l>", vim.lsp.buf.format)
 
 -- Diagnostics
 vim.diagnostic.config({
