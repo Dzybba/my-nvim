@@ -23,3 +23,4 @@ vim.o.autoindent = true
 -- Use system clipboard
 vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 
+vim.o.winborder = 'rounded'
