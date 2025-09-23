@@ -28,7 +28,7 @@ vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 vim.keymap.set("n", "Q", "gq", { desc = "Format text using gq" })
 
 -- Format Json string
-vim.keymap.set('n', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format buffer as JSON' })
+vim.keymap.set('n', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format be uffer as JSON' })
 vim.keymap.set('v', '<leader>jf', ':FormatJSON<CR>', { desc = 'Format selected JSON' })
 
 local opts = { noremap = true, silent = true }
@@ -50,17 +50,10 @@ vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true
 vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = true, desc = "Create new buffer" })
 
 -- Smart close with confirmation for unsaved buffers
-vim.keymap.set('n', '<M-x>', function()
-    local buf = vim.api.nvim_get_current_buf()
-    local modified = vim.bo[buf].modified
-
-    if modified then
-        vim.cmd('confirm bdelete')
-    else
-        vim.cmd('bdelete')
-    end
-end, { noremap = true, silent = true, desc = "Close buffer" })
-
+local float_buffer_close = require("utils.float_buffer_close")
+vim.keymap.set('n', '<leader>bx', float_buffer_close.close_buffer_with_float, {
+    noremap = true, silent = true, desc = "Close buffer (with confirmation)"
+})
 
 vim.keymap.set('n', '<leader>x', function()
     -- Count windows excluding explorer
