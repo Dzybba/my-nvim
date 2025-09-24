@@ -5,11 +5,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local bufnr = ev.buf
-
     -- Set up completion if supported
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-      vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'fuzzy', 'popup' }
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+      vim.opt.completeopt = { 'menu', 'noinsert', 'fuzzy', 'popup' }
+      vim.lsp.completion.enable(true, client.id, ev.buf)
       -- Ctrl+Space for manual completion (Android Studio default)
       vim.keymap.set('i', '<C-Space>', function()
         vim.lsp.completion.get()
@@ -22,17 +21,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Navigation (Android Studio shortcuts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'Go to declaration' }))
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, vim.tbl_extend('force', opts, { desc = 'Go to implementation' }))
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
+      vim.tbl_extend('force', opts, { desc = 'Go to implementation' }))
     vim.keymap.set('n', '<C-u>', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'Find usages' }))
     vim.keymap.set('n', '<C-h>', vim.lsp.buf.type_definition,
       vim.tbl_extend('force', opts, { desc = 'Go to type definition' }))
 
-    -- Quick documentation 
+    -- Quick documentation
     vim.keymap.set('n', 'K', vim.lsp.buf.hover,
       vim.tbl_extend('force', opts, { desc = 'Show documentation' }))
 
     -- Parameter hints (Ctrl+P in Android Studio)
-    vim.keymap.set( { 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, vim.tbl_extend('force', opts, { desc = 'Parameter info' }))
+    vim.keymap.set({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help,
+      vim.tbl_extend('force', opts, { desc = 'Parameter info' }))
 
     -- Refactoring (Android Studio shortcuts)
     vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'Rename symbol' }))
@@ -84,7 +85,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Diagnostics configuration 
+-- Diagnostics configuration
 vim.diagnostic.config({
   virtual_lines = {
     current_line = true,
