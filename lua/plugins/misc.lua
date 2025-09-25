@@ -22,20 +22,9 @@ return {
     opts = {},
   },
   {
-    'echasnovski/mini.ai', 
+    'echasnovski/mini.ai',
     version = '*',
     event = 'VeryLazy'
-  }
---  {
---    'echasnovski/mini.animate',
---    version = '*',
---    event = "VeryLazy",
---    config = function ()
---      require('mini.animate').setup({
---        cursor = {
---          enable = false,
---        }
---      })
---    end
---  },
+  },
+  { "typicode/bg.nvim", lazy = false }
 }
