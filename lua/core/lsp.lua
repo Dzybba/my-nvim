@@ -1,4 +1,3 @@
--- LSP Configuration with Android Studio-like keymaps
 vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -15,7 +14,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end, { buffer = bufnr, desc = 'Trigger completion' })
     end
 
-    -- Android Studio-inspired keymaps
     local opts = { buffer = bufnr, silent = true }
 
     -- Navigation (Android Studio shortcuts)
@@ -34,12 +32,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover,
       vim.tbl_extend('force', opts, { desc = 'Show documentation' }))
 
-    -- Parameter hints (Ctrl+P in Android Studio)
     vim.keymap.set({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help,
       vim.tbl_extend('force', opts, { desc = 'Parameter info' }))
 
-    -- Refactoring (Android Studio shortcuts)
-    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'Rename symbol' }))
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'Rename symbol' }))
 
     -- Code actions (Alt+Enter in Android Studio)
@@ -82,53 +77,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
       end, vim.tbl_extend('force', opts, { desc = 'Toggle inlay hints' }))
     end
-
-    -- Generate code (Alt+Insert in Android Studio)
-    vim.keymap.set('n', '<M-Insert>', vim.lsp.buf.code_action, vim.tbl_extend('force', opts, { desc = 'Generate code' }))
   end,
 })
-
--- Diagnostics configuration
-vim.diagnostic.config({
-  virtual_lines = {
-    current_line = true,
-  },
-  -- Additional Android Studio-like diagnostic display
-  virtual_text = {
-    severity = { min = vim.diagnostic.severity.WARN }, -- Only show warnings and errors
-    source = "if_many",
-    prefix = "●", -- Nice bullet point like Android Studio
-  },
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  float = {
-    focusable = false,
-    style = "minimal",
-    border = "rounded",
-    source = "always",
-    header = "",
-    prefix = "",
-  },
-})
-
--- Optional: Set up diagnostic signs to look more like Android Studio
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
--- Optional: Auto-show diagnostics on hover (like Android Studio tooltips)
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-  group = vim.api.nvim_create_augroup("float_diagnostic_cursor", { clear = true }),
-  callback = function()
-    vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
-  end,
-})
-
--- Set updatetime for CursorHold events (adjust as needed)
-vim.opt.updatetime = 1000
 
 vim.api.nvim_create_user_command("LspCaps", function()
   local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
