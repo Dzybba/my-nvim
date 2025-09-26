@@ -162,7 +162,6 @@ vim.keymap.set("v", "?", function()
     search_selected('?')
 end, { noremap = true, silent = false })
 
-
 -- Diagnostic keymaps (commented out)
 -- vim.keymap.set('n', '[d', function()
 --   vim.diagnostic.jump { count = -1, float = true }
