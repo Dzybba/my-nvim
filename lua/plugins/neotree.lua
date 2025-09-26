@@ -292,9 +292,6 @@ return {
       },
     }
 
-    -- vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
     vim.keymap.set('n', '<leader>e', ':Neotree reveal<CR>', { noremap = true, silent = true })
-    -- Updated keymap for floating window
-    -- vim.keymap.set('n', '<leader>e', ':Neotree toggle position=float<CR>', { noremap = true, silent = true })
   end,
 }
