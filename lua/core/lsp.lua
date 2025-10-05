@@ -1,4 +1,4 @@
-vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp' })
+vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp', 'gopls' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
