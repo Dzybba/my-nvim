@@ -51,7 +51,7 @@ vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = 
 
 -- Smart close with confirmation for unsaved buffers
 local float_buffer_close = require("utils.float_buffer_close")
-vim.keymap.set('n', '<leader>bx', float_buffer_close.close_buffer_with_float, {
+vim.keymap.set('n', '<M-x>', float_buffer_close.close_buffer_with_float, {
     noremap = true, silent = true, desc = "Close buffer (with confirmation)"
 })
 
@@ -75,12 +75,6 @@ vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', { noremap = true, silent = true, d
 vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', { noremap = true, silent = true, desc = "Move to window below" })
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', { noremap = true, silent = true, desc = "Move to window left" })
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { noremap = true, silent = true, desc = "Move to window right" })
-
--- Tabs
---vim.keymap.set('n', '<leader>to', ':tabnew<CR>', { noremap = true, silent = true, desc = "Open new tab" })
---vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', { noremap = true, silent = true, desc = "Close current tab" })
---vim.keymap.set('n', '<leader>tn', ':tabn<CR>', { noremap = true, silent = true, desc = "Go to next tab" })
---vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { noremap = true, silent = true, desc = "Go to previous tab" })
 
 -- Toggle line wrapping
 -- vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', { noremap = true, silent = true, desc = "Toggle line wrapping" })
@@ -162,14 +156,3 @@ vim.keymap.set("v", "?", function()
     search_selected('?')
 end, { noremap = true, silent = false })
 
--- Diagnostic keymaps (commented out)
--- vim.keymap.set('n', '[d', function()
---   vim.diagnostic.jump { count = -1, float = true }
--- end, { desc = 'Go to previous diagnostic message' })
---
--- vim.keymap.set('n', ']d', function()
---   vim.diagnostic.jump { count = 1, float = true }
--- end, { desc = 'Go to next diagnostic message' })
---
--- vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
--- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })

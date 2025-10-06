@@ -119,7 +119,7 @@ return {
     -- Setup with optional keymapping
     telescope_refs.setup({
       keymaps = {
-        references = '<leader>gr' -- or whatever key you prefer
+        references = '<C-b>' -- or whatever key you prefer
       }
     })
 
