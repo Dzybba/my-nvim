@@ -156,3 +156,5 @@ vim.keymap.set("v", "?", function()
     search_selected('?')
 end, { noremap = true, silent = false })
 
+
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic list" })
