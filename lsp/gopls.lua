@@ -100,6 +100,7 @@ return {
     gopls = {
       completeUnimported = true,
       usePlaceholders = true,
+      gofumpt = true,
       analyses = {
         unusedparams = true,
       }
