@@ -114,17 +114,6 @@ return {
       require('telescope.builtin').jumplist()
     end, { desc = 'Show jump list' })
 
-    local telescope_refs = require('config.telescope.lspfindusage')
-
-    -- Setup with optional keymapping
-    telescope_refs.setup({
-      keymaps = {
-        references = '<C-b>' -- or whatever key you prefer
-      }
-    })
-
-    -- Or call directly
-    -- telescope_refs.find_references()
   
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()

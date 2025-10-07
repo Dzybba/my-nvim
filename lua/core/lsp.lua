@@ -16,17 +16,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local opts = { buffer = bufnr, silent = true }
 
-    -- Navigation (Android Studio shortcuts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'Go to declaration' }))
+    -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'Go to declaration' }))
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
-    vim.keymap.set('i', '<C-b>', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
-
 
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
       vim.tbl_extend('force', opts, { desc = 'Go to implementation' }))
-    -- vim.keymap.set('n', '<C-u>', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'Find usages' }))
     vim.keymap.set('n', '<C-h>', vim.lsp.buf.type_definition,
       vim.tbl_extend('force', opts, { desc = 'Go to type definition' }))
+
+    local telescope_refs = require('config.telescope.lspfindusage')
+    vim.keymap.set(
+      'n',
+      '<leader>u',
+      function()
+        vim.lsp.buf.references(nil, {
+          on_list = telescope_refs.find_new_ref
+        })
+      end, { buffer = bufnr, desc = 'Test ref' }
+    )
+
+
 
     -- Quick documentation
     vim.keymap.set('n', 'K', vim.lsp.buf.hover,
