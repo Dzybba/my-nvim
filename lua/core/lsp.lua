@@ -16,25 +16,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local opts = { buffer = bufnr, silent = true }
 
-    -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'Go to declaration' }))
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'Go to definition' }))
 
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
-      vim.tbl_extend('force', opts, { desc = 'Go to implementation' }))
-    vim.keymap.set('n', '<C-h>', vim.lsp.buf.type_definition,
-      vim.tbl_extend('force', opts, { desc = 'Go to type definition' }))
-
-    local telescope_refs = require('config.telescope.lspfindusage')
-    vim.keymap.set(
-      'n',
-      '<leader>u',
-      function()
-        vim.lsp.buf.references(nil, {
-          on_list = telescope_refs.find_new_ref
-        })
-      end, { buffer = bufnr, desc = 'Test ref' }
-    )
-
+    require('config.lsp.telescope.lsp-telescope').setup_lsp_telescope()
 
 
     -- Quick documentation

@@ -97,24 +97,6 @@ return {
       require('telescope.builtin').jumplist()
     end, { desc = 'Show jump list' })
 
-    vim.keymap.set('n', '<leader>jr', function()
-      require('telescope.builtin').lsp_references()
-    end, { desc = 'Show references' })
-
-    vim.keymap.set('n', '<leader>js', function()
-      require('telescope.builtin').lsp_document_symbols()
-    end, { desc = 'Show document symbols' })
-
-    vim.keymap.set('n', '<leader>jw', function()
-      require('telescope.builtin').lsp_workspace_symbols()
-    end, { desc = 'Show workspace symbols' })
-
-    -- Alternative: Show jump list with a shorter binding
-    vim.keymap.set('n', '<C-j>', function()
-      require('telescope.builtin').jumplist()
-    end, { desc = 'Show jump list' })
-
-  
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
