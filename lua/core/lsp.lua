@@ -5,14 +5,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local bufnr = ev.buf
     -- Set up completion if supported
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-      vim.opt.completeopt = { 'menu', 'noinsert', 'fuzzy', 'popup' }
-      vim.lsp.completion.enable(true, client.id, ev.buf)
-      -- Ctrl+Space for manual completion (Android Studio default)
-      vim.keymap.set('i', '<C-Space>', function()
-        vim.lsp.completion.get()
-      end, { buffer = bufnr, desc = 'Trigger completion' })
-    end
+    -- if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+    --   vim.opt.completeopt = { 'menu', 'noinsert', 'fuzzy', 'popup' }
+    --   vim.lsp.completion.enable(true, client.id, ev.buf)
+    --   -- Ctrl+Space for manual completion (Android Studio default)
+    --   vim.keymap.set('i', '<C-Space>', function()
+    --     vim.lsp.completion.get()
+    --   end, { buffer = bufnr, desc = 'Trigger completion' })
+    -- end
 
     local opts = { buffer = bufnr, silent = true }
 
