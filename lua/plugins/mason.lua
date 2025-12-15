@@ -7,7 +7,8 @@ return {
         },
         ensure_installed = {
             "roslyn",
-            "gopls"
+            "gopls",
+            "pylsp"
         }
     }
 }

@@ -1,18 +1,9 @@
-vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp', 'gopls' })
+vim.lsp.enable({ 'lsp_lua', 'kotlin_lsp', 'gopls', 'pylsp' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     local bufnr = ev.buf
-    -- Set up completion if supported
-    -- if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-    --   vim.opt.completeopt = { 'menu', 'noinsert', 'fuzzy', 'popup' }
-    --   vim.lsp.completion.enable(true, client.id, ev.buf)
-    --   -- Ctrl+Space for manual completion (Android Studio default)
-    --   vim.keymap.set('i', '<C-Space>', function()
-    --     vim.lsp.completion.get()
-    --   end, { buffer = bufnr, desc = 'Trigger completion' })
-    -- end
 
     local opts = { buffer = bufnr, silent = true }
 
@@ -46,12 +37,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.tbl_extend('force', opts, { desc = 'Previous error/warning' }))
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, vim.tbl_extend('force', opts, { desc = 'Next diagnostic' }))
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, vim.tbl_extend('force', opts, { desc = 'Previous diagnostic' }))
-
-    -- Show diagnostics (like Android Studio's error tooltip)
-    -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float,
-    --   vim.tbl_extend('force', opts, { desc = 'Show diagnostics' }))
-    -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist,
-    --   vim.tbl_extend('force', opts, { desc = 'Diagnostics to quickfix' }))
 
     -- Workspace management
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder,
