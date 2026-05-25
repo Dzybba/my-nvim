@@ -26,7 +26,7 @@ return {
     -- },
     {
         "catppuccin/nvim",
-        name = "catppuccin",
+        name = "catppuccin-nvim",
         priority = 1000,
         opts = {
             transparent_background = true, -- disables setting the background color.
