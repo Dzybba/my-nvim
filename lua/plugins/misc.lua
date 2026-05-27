@@ -22,9 +22,14 @@ return {
     opts = {},
   },
   {
+    -- It enhances some builtin textobjects (like a(, a), a', and more), creates new ones (like a*, a<Space>, af, a?, and more), and allows user to create their own (like based on treesitter, and more).
     'echasnovski/mini.ai',
     version = '*',
     event = 'VeryLazy'
   },
-  { "typicode/bg.nvim", lazy = false }
+  {
+    -- bg.nvim automatically syncs terminal background and cursor with any neovim colorscheme.
+    "typicode/bg.nvim",
+    lazy = false
+  }
 }

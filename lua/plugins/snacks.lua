@@ -57,6 +57,7 @@ return {
     },
     keys = {
       { "<leader>lg", function() Snacks.lazygit() end, desc = "LazyGit" },
+      { "<leader>snh", function() Snacks.notifier.show_history() end, desc = "Show notification history" },
     },
   }
 }

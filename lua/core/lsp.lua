@@ -9,6 +9,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 
     require('config.lsp.telescope.lsp-telescope').setup_lsp_telescope()
+    require('config.lsp.notifier.lsp-notifier').setup_lsp_notifier_progress()
 
 
     -- Quick documentation

@@ -1,3 +1,4 @@
+-- A Neovim plugin for displaying inline diagnostic messages with customizable styles and icons.
 return {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy",

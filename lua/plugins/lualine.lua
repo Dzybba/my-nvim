@@ -1,3 +1,4 @@
+-- buttom status line 
 return {
   'nvim-lualine/lualine.nvim',
   config = function()
