@@ -25,7 +25,20 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = 'super-tab' },
+    keymap = {
+      preset = 'super-tab',
+      ['<CR>'] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.accept()
+          else
+            return cmp.select_and_accept()
+          end
+        end,
+        'snippet_forward',
+        'fallback'
+      }
+    },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -33,10 +46,15 @@ return {
       nerd_font_variant = 'mono'
     },
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { 
-      documentation = { auto_show = false }, 
-      menu = { auto_show = false }, 
-      ghost_text = { enabled = true, show_with_menu = false }
+    completion = {
+      documentation = { auto_show = false },
+      -- menu = { auto_show = false },
+      ghost_text = { enabled = true, show_with_menu = false },
+      accept = {
+        auto_brackets = {
+          enabled = false,
+        }
+      }
     },
 
     -- Default list of enabled providers defined so that you can extend it
