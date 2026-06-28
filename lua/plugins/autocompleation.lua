@@ -68,7 +68,26 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" }
+    fuzzy = {
+      implementation = "prefer_rust_with_warning",
+      sorts = {
+        function(a, b)
+          -- Check if either item is a local variable or parameter
+          -- Kind 6 = Variable, Kind 9 = Field, Kind 13 = Parameter
+          -- Adjust kinds depending on what you want prioritized first
+          local a_is_var = a.kind == 6 or a.kind == 13
+          local b_is_var = b.kind == 6 or b.kind == 13
+
+          if a_is_var and not b_is_var then return true end
+          if not a_is_var and b_is_var then return false end
+
+          -- Fall through if both are variables or neither are variables
+        end,
+        'score',     -- Primary sort: by fuzzy matching score
+        'sort_text', -- Secondary sort: by sortText field if scores are equal
+        'label',     -- Tertiary sort: by label if still tied
+      }
+    }
   },
   opts_extend = { "sources.default" }
 }
