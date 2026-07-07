@@ -31,5 +31,9 @@ return {
     -- bg.nvim automatically syncs terminal background and cursor with any neovim colorscheme.
     "typicode/bg.nvim",
     lazy = false
+  },
+  {
+    'christoomey/vim-tmux-navigator',
+    lazy = false,
   }
 }

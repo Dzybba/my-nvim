@@ -24,3 +24,6 @@ vim.o.autoindent = true
 vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 
 vim.o.winborder = 'rounded'
+
+-- Automatically reload files changed outside of Neovim
+vim.opt.autoread = true

@@ -20,3 +20,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "VimResume" }, {
+  pattern = "*",
+  callback = function()
+    -- Check files silently without printing warnings to the command line
+    vim.cmd("silent! checktime")
+  end,
+})
