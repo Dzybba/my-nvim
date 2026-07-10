@@ -21,10 +21,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- refresh buffer from disk 
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "VimResume" }, {
   pattern = "*",
   callback = function()
     -- Check files silently without printing warnings to the command line
     vim.cmd("silent! checktime")
   end,
+})
+
+
+-- show notification on save buffer
+local group = vim.api.nvim_create_augroup('autosave', {})
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'AutoSaveWritePost',
+    group = group,
+    callback = function(opts)
+        if opts.data.saved_buffer ~= nil then
+            local filename = vim.api.nvim_buf_get_name(opts.data.saved_buffer)
+            vim.notify('AutoSave: saved ' .. filename .. ' at ' .. vim.fn.strftime('%H:%M:%S'), vim.log.levels.INFO)
+        end
+    end,
 })

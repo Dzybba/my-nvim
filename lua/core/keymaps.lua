@@ -159,3 +159,8 @@ end, { noremap = true, silent = false })
 
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic list" })
 
+-- Jump backward in the jump list
+vim.keymap.set('n', '[\\', '<C-o>', { noremap = true, silent = true, desc = "Jump backward" })
+-- Jump forward in the jump list
+vim.keymap.set('n', ']\\', '<C-i>', { noremap = true, silent = true, desc = "Jump forward" })
+

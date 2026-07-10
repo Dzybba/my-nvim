@@ -1,9 +1,9 @@
 -- Standalone plugins with less than 10 lines of config go here
 return {
- -- {
- --   -- Tmux & split window navigation
- --   'christoomey/vim-tmux-navigator',
- -- },
+  -- {
+  --   -- Tmux & split window navigation
+  --   'christoomey/vim-tmux-navigator',
+  -- },
   {
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
@@ -35,5 +35,15 @@ return {
   {
     'christoomey/vim-tmux-navigator',
     lazy = false,
-  }
+  },
+  {
+    "okuuva/auto-save.nvim",
+    version = '^1.0.0',
+    cmd = "ASToggle",                       -- optional for lazy loading on command
+    event = { "InsertLeave", "TextChanged" }, -- optional for lazy loading on trigger events
+    opts = {
+      -- your config goes here
+      -- or just leave it empty :)
+    },
+  },
 }
