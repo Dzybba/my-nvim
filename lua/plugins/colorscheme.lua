@@ -1,13 +1,14 @@
--- Configure Nord theme settings
--- vim.g.nord_contrast = true
--- vim.g.nord_borders = false
--- vim.g.nord_disable_background = false
--- vim.g.nord_italic = false
--- vim.g.nord_uniform_diff_background = true
--- vim.g.nord_bold = false
--- End of configure Nord theme
-
 return {
+    {
+        "nickkadutskyi/jb.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+        config = function()
+            require("jb").setup({transparent = true})
+            vim.cmd("colorscheme jb")
+        end,
+    }
     -- {
     --     "folke/tokyonight.nvim",
     --     lazy = false,
@@ -24,17 +25,17 @@ return {
     --         vim.cmd.colorscheme("tokyonight")
     --     end
     -- },
-    {
-        "catppuccin/nvim",
-        name = "catppuccin-nvim",
-        priority = 1000,
-        opts = {
-            transparent_background = true, -- disables setting the background color.
-        },
-        config = function()
-            vim.cmd.colorscheme("catppuccin")
-        end
-    },
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin-nvim",
+    --     priority = 1000,
+    --     opts = {
+    --         transparent_background = true, -- disables setting the background color.
+    --     },
+    --     config = function()
+    --         vim.cmd.colorscheme("catppuccin")
+    --     end
+    -- },
 
     -- {
     --     "shaunsingh/nord.nvim",
